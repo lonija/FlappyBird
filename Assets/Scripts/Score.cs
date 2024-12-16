@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+//using System.Theading.Tasks.Sources;
+using UnityEngine;
+using TMPro;
+
+public class Score : MonoBehaviour
+{
+    public static Score instance;
+    [SerializeField] private TextMeshProUGUI currentScoreText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
+
+    private int score;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        
+    }
+
+    private void Start()
+    {
+        currentScoreText.text = score.ToString();
+        highScoreText.text = PlayerPrefs.GetInt("Highscore", 0).ToString();
+            UpdateHighScore();
+    }
+
+
+    private void UpdateHighScore()
+    {
+        if (score > PlayerPrefs.GetInt("HighScore"))
+        {
+            PlayerPrefs.GetInt("HighScore", score);
+            highScoreText.text = score.ToString();
+        }
+        
+    }
+    public void UpdateScore()
+    {
+        score++;
+        currentScoreText.text = score.ToString();
+        UpdateHighScore();
+    }
+}
